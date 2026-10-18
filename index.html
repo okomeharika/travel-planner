@@ -39,6 +39,7 @@ h2{font-size:19px;margin:0}
 .empty{border:1px dashed #cfcfcf;border-radius:16px;padding:28px 16px;text-align:center;color:var(--muted);background:#ffffff}
 .hidden{display:none!important}
 .board-top{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px 14px;margin:10px 0 16px}.board-top .board-head{margin:0 0 12px}.board-top .board-actions-row{margin:0}.board-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:10px 0 18px}
+.board-head>div{width:100%}.board-nav{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .board-title{font-size:24px;margin:14px 0 6px;overflow-wrap:anywhere}
 .board-actions-row{display:flex;justify-content:flex-start;margin:-8px 0 16px}.board-actions-row .actions{width:100%;gap:8px;flex-wrap:wrap;align-items:center}.board-actions-row #addNoteBtn{margin-left:auto;background:var(--yellow);color:#202020;border-color:#e6c72f;font-size:15px;padding:12px 20px;border-radius:12px}.board-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .board{display:grid;grid-template-columns:82px minmax(0,1fr);gap:10px;align-items:stretch}
@@ -82,6 +83,24 @@ h2{font-size:19px;margin:0}
 .modal-actions{display:flex;justify-content:space-between;gap:8px;margin-top:20px}
 .modal-actions-right{display:flex;gap:8px}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#4b4036;color:white;padding:10px 15px;border-radius:99px;font-size:13px;z-index:20;box-shadow:var(--shadow)}
+@page{size:A4 portrait;margin:12mm}
+@media print{
+ html,body{background:#fff!important}
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .topbar,#tripListView,.board-actions-row,#backBtn,#editTripBtn,.board-nav,.pool-column,.add-day,.footer-note,#modalRoot,#toastRoot,.note-foot,.drop-hint{display:none!important}
+ .app{padding:0!important;max-width:none!important}
+ #boardView{display:block!important}
+ .board-top{border:none;border-radius:0;padding:0;margin:0 0 6mm;background:#fff}
+ .board-head{margin:0}
+ .board-title{font-size:20px;margin:0 0 3px}
+ .board,.board.with-pool{grid-template-columns:24mm minmax(0,1fr)!important;gap:0!important;row-gap:0!important}
+ .column-label{margin:0 0 3px;color:#555}
+ .day-row,.schedule-day{min-height:26mm!important;border-bottom:1px solid #8a8a8a;padding-top:3mm;padding-bottom:3mm;break-inside:avoid;page-break-inside:avoid}
+ .day-row.first,.schedule-day.first{border-top:1px solid #8a8a8a}
+ .day-row{padding-right:2mm;border-left:1px solid #8a8a8a}
+ .schedule-day{padding-left:3mm;padding-right:3mm;border-left:1px solid #8a8a8a;border-right:1px solid #8a8a8a;gap:3mm}
+ .schedule-day .note{box-shadow:none;border:1px solid #00000025;break-inside:avoid;page-break-inside:avoid}
+}
 @media(min-width:700px){
  .app{padding:26px 24px 60px}
  .board{grid-template-columns:100px minmax(0,1fr)}
@@ -133,7 +152,10 @@ h2{font-size:19px;margin:0}
     <div class="board-top">
     <div class="board-head">
       <div>
-        <button class="btn ghost small" id="backBtn">← 旅行一覧</button>
+        <div class="board-nav">
+          <button class="btn ghost small" id="backBtn">← 旅行一覧</button>
+          <button class="btn small" id="editTripBtn">旅行を編集</button>
+        </div>
         <h2 class="board-title" id="boardTitle"></h2>
         <div class="sub" id="boardDates"></div>
       </div>
@@ -141,7 +163,7 @@ h2{font-size:19px;margin:0}
     <div class="board-actions-row">
       <div class="actions">
         <button class="btn small" id="togglePoolBtn" aria-pressed="false">未配置付箋を表示</button>
-        <button class="btn small" id="editTripBtn">旅行を編集</button>
+        <button class="btn small" id="exportPdfBtn">PDFで書き出し</button>
         <button class="btn primary" id="addNoteBtn">＋ 付箋</button>
       </div>
     </div>
@@ -411,6 +433,14 @@ h2{font-size:19px;margin:0}
   $('newTripBtn').onclick=()=>openTripModal();
   $('backBtn').onclick=()=>{currentTripId=null;renderTrips();};
   $('editTripBtn').onclick=()=>openTripModal(currentTripId);
+  $('exportPdfBtn').onclick=()=>{
+    const t=data.trips.find(x=>x.id===currentTripId); if(!t)return;
+    const prev=document.title;
+    document.title=t.name;
+    const restore=()=>{document.title=prev;window.removeEventListener('afterprint',restore);};
+    window.addEventListener('afterprint',restore);
+    window.print();
+  };
   $('togglePoolBtn').onclick=()=>{showPool=!showPool;renderBoard();};
   $('addNoteBtn').onclick=()=>openNoteModal(null,1);
   $('tripList').addEventListener('click',e=>{
