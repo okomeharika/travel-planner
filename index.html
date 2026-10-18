@@ -40,7 +40,7 @@ h2{font-size:19px;margin:0}
 .hidden{display:none!important}
 .board-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:10px 0 18px}
 .board-title{font-size:24px;margin:0 0 6px;overflow-wrap:anywhere}
-.board-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.board-actions-row{display:flex;justify-content:flex-start;margin:-8px 0 16px}.board-actions-row .actions{width:100%;gap:8px;flex-wrap:wrap}.board-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .board{display:grid;grid-template-columns:82px minmax(0,1fr);gap:10px;align-items:stretch}
 .board.with-pool{grid-template-columns:72px minmax(220px,1fr) minmax(190px,.7fr)}
 .date-column,.schedule-column,.pool-column{min-width:0}
@@ -136,8 +136,10 @@ h2{font-size:19px;margin:0}
         <h2 class="board-title" id="boardTitle"></h2>
         <div class="sub" id="boardDates"></div>
       </div>
+    </div>
+    <div class="board-actions-row">
       <div class="actions">
-        <button class="btn small" id="togglePoolBtn" aria-pressed="false">▤ 未配置</button>
+        <button class="btn small" id="togglePoolBtn" aria-pressed="false">未配置付箋を表示</button>
         <button class="btn small" id="editTripBtn">旅行を編集</button>
         <button class="btn primary small" id="addNoteBtn">＋ 付箋</button>
       </div>
@@ -223,7 +225,7 @@ h2{font-size:19px;margin:0}
     $('boardView').classList.remove('hidden');
     $('boardTitle').textContent = t.name;
     $('boardDates').textContent = `${fmtRange(t.start,t.end)} · ${dayCount(t.start,t.end)}日間`;
-    $('togglePoolBtn').textContent = showPool ? '▤ 未配置を隠す' : '▤ 未配置';
+    $('togglePoolBtn').textContent = showPool ? '未配置付箋を隠す' : '未配置付箋を表示';
     $('togglePoolBtn').setAttribute('aria-pressed', String(showPool));
     $('board').classList.toggle('with-pool', showPool);
 
