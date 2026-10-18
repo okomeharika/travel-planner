@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f7efe3">
+<meta name="theme-color" content="#ffffff">
 <title>旅の付箋 | 旅行計画</title>
 <style>
 :root{
-  --bg:#f7efe3;--paper:#fffaf3;--ink:#4b4036;--muted:#8b7d70;
-  --line:#e3d6c6;--accent:#9b7962;--shadow:0 3px 12px #66513a12;
-  --yellow:#f8e5b8;--green:#dcebdd;--blue:#dce6f8;--pink:#f4dcd7;
-  --purple:#e9dff5;--mint:#d8eee8;
+  --bg:#ffffff;--paper:#ffffff;--ink:#252525;--muted:#707070;
+  --line:#e8e8e8;--accent:#00a98f;--shadow:0 3px 12px #0000000c;
+  --yellow:#ffe04b;--green:#8cdb45;--blue:#28a9ed;--pink:#ff655e;
+  --purple:#9b6be8;--mint:#00c7a6;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif}
@@ -23,7 +23,7 @@ h1{font-size:25px;margin:5px 0 0;letter-spacing:.02em}
 h2{font-size:19px;margin:0}
 .sub{font-size:13px;color:var(--muted);margin-top:5px}
 .btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:10px 13px;border-radius:12px;font-weight:650;box-shadow:var(--shadow)}
-.btn.primary{background:#80644f;color:white;border-color:#80644f}
+.btn.primary{background:#00a98f;color:white;border-color:#00a98f}
 .btn.ghost{background:transparent;box-shadow:none}
 .btn.danger{color:#a34f42}
 .btn.small{font-size:12px;padding:7px 9px;border-radius:9px}
@@ -31,7 +31,7 @@ h2{font-size:19px;margin:0}
 .list-head{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:25px 0 14px}
 .trip-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:13px}
 .trip-card{border:1px solid var(--line);border-radius:18px;background:var(--paper);padding:16px;box-shadow:var(--shadow);text-align:left;color:inherit;width:100%;display:block}
-.trip-card:hover{border-color:#bda38c}
+.trip-card:hover{border-color:#00a98f}
 .trip-card-top{display:flex;justify-content:space-between;align-items:start;gap:12px}
 .trip-title{font-size:19px;font-weight:750;margin-bottom:7px;overflow-wrap:anywhere}
 .trip-dates{color:var(--muted);font-size:13px}
@@ -49,14 +49,14 @@ h2{font-size:19px;margin:0}
 .day-row:first-of-type{border-top:1px solid var(--line)}
 .day-date{font-size:17px;font-weight:800;line-height:1.15}
 .day-weekday{font-size:11px;color:var(--muted)}
-.day-tag{font-size:10px;font-weight:800;letter-spacing:.03em;background:#e7d7c6;border-radius:6px;padding:4px 5px;display:inline-block;width:max-content}
+.day-tag{font-size:10px;font-weight:800;letter-spacing:.03em;background:#e9f8f4;color:#008d78;border-radius:6px;padding:4px 5px;display:inline-block;width:max-content}
 .schedule-day{min-height:140px;padding:10px 0;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;align-content:flex-start}
 .schedule-day:first-of-type{border-top:1px solid var(--line)}
 .drop-hint{font-size:11px;color:#a79787;padding:10px 4px}
 .pool-column{border-left:1px solid var(--line);padding-left:12px}
-.pool-inner{background:#f0e5d8;border:1px dashed #d0bca7;border-radius:14px;padding:9px;min-height:140px}
+.pool-inner{background:#fafafa;border:1px dashed #cfcfcf;border-radius:14px;padding:9px;min-height:140px}
 .pool-card-list{display:flex;flex-direction:column;gap:8px}
-.note{width:100%;max-width:100%;border:1px solid #0000000c;border-radius:11px;padding:10px 10px 9px;text-align:left;color:#4b4036;box-shadow:0 2px 5px #54402a10;position:relative;overflow-wrap:anywhere;touch-action:pan-y}
+.note{width:100%;max-width:100%;border:1px solid #00000010;border-radius:11px;padding:10px 10px 9px;text-align:left;color:#202020;box-shadow:0 3px 8px #00000012;position:relative;overflow-wrap:anywhere;touch-action:pan-y}
 .note.yellow{background:var(--yellow)}.note.green{background:var(--green)}.note.blue{background:var(--blue)}.note.pink{background:var(--pink)}.note.purple{background:var(--purple)}.note.mint{background:var(--mint)}
 .schedule-day .note{width:calc(50% - 4px);min-width:120px;flex:1 1 130px}
 .note-title{font-weight:800;font-size:14px;line-height:1.35;padding-right:2px}
@@ -158,12 +158,12 @@ h2{font-size:19px;margin:0}
 (() => {
   const STORAGE_KEY = 'tabi-fusen-v1';
   const COLORS = [
-    {id:'yellow',name:'黄色',hex:'#f8e5b8'},
-    {id:'green',name:'緑',hex:'#dcebdd'},
-    {id:'blue',name:'青',hex:'#dce6f8'},
-    {id:'pink',name:'ピンク',hex:'#f4dcd7'},
-    {id:'purple',name:'紫',hex:'#e9dff5'},
-    {id:'mint',name:'ミント',hex:'#d8eee8'}
+    {id:'yellow',name:'シトロンイエロー',hex:'#ffe04b'},
+    {id:'green',name:'ライムグリーン',hex:'#8cdb45'},
+    {id:'blue',name:'ブライトブルー',hex:'#28a9ed'},
+    {id:'pink',name:'ビビッドレッド',hex:'#ff655e'},
+    {id:'purple',name:'バイオレット',hex:'#9b6be8'},
+    {id:'mint',name:'エメラルド',hex:'#00c7a6'}
   ];
   const KINDS = ['観光','ホテル','移動','食事','その他'];
   let data = loadData();
