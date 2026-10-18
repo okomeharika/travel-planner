@@ -30,13 +30,13 @@ h2{font-size:19px;margin:0}
 .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .list-head{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:25px 0 14px}
 .trip-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:13px}
-.trip-card{border:1px solid var(--line);border-radius:18px;background:var(--paper);padding:16px;box-shadow:var(--shadow);text-align:left;color:inherit;width:100%;display:block}
+.trip-card{border:1px solid var(--line);border-radius:18px;background:var(--paper);padding:16px;box-shadow:var(--shadow);text-align:left;color:inherit;width:100%;display:block;cursor:pointer}
 .trip-card:hover{border-color:#00a98f}
 .trip-card-top{display:flex;justify-content:space-between;align-items:start;gap:12px}
 .trip-title{font-size:19px;font-weight:750;margin-bottom:7px;overflow-wrap:anywhere}
 .trip-dates{color:var(--muted);font-size:13px}
-.trip-meta{font-size:12px;color:var(--muted);margin-top:12px}
-.empty{border:1px dashed #cbb9a5;border-radius:16px;padding:28px 16px;text-align:center;color:var(--muted);background:#fffaf35c}
+.trip-meta{font-size:12px;color:var(--muted)}.trip-card-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}.btn.danger-solid{background:#d64a3f;color:#fff;border-color:#d64a3f}.confirm-msg{font-size:14px;line-height:1.6;margin:12px 0 0;overflow-wrap:anywhere}
+.empty{border:1px dashed #cfcfcf;border-radius:16px;padding:28px 16px;text-align:center;color:var(--muted);background:#ffffff}
 .hidden{display:none!important}
 .board-top{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px 14px;margin:10px 0 16px}.board-top .board-head{margin:0 0 12px}.board-top .board-actions-row{margin:0}.board-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:10px 0 18px}
 .board-title{font-size:24px;margin:14px 0 6px;overflow-wrap:anywhere}
@@ -46,13 +46,13 @@ h2{font-size:19px;margin:0}
 .date-column,.schedule-column,.pool-column{min-width:0}
 .column-label{font-size:12px;color:var(--muted);font-weight:750;margin:0 0 10px;padding:0 3px;min-height:18px}
 .day-row{min-height:140px;border-bottom:1px solid var(--line);padding:10px 0;display:flex;flex-direction:column;gap:6px}
-.day-row:first-of-type{border-top:1px solid var(--line)}
+.day-row.first{border-top:1px solid var(--line)}
 .day-date{font-size:17px;font-weight:800;line-height:1.15}
 .day-weekday{font-size:11px;color:var(--muted)}
 .day-tag{font-size:10px;font-weight:800;letter-spacing:.03em;background:#e9f8f4;color:#008d78;border-radius:6px;padding:4px 5px;display:inline-block;width:max-content}
 .schedule-day{min-height:140px;padding:10px 0;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;align-content:flex-start}
-.schedule-day:first-of-type{border-top:1px solid var(--line)}
-.drop-hint{font-size:11px;color:#a79787;padding:10px 4px}
+.schedule-day.first{border-top:1px solid var(--line)}.board{row-gap:0!important}.board>.column-label,.board>.day-row,.board>.schedule-day,.board>.add-day{min-width:0}
+.drop-hint{font-size:11px;color:#9a9a9a;padding:10px 4px}
 .pool-column{border-left:1px solid var(--line);padding-left:12px}
 .pool-inner{background:#ffffff;border:1px dashed #cfcfcf;border-radius:14px;padding:9px;min-height:140px}
 .pool-card-list{display:flex;flex-direction:column;gap:8px}
@@ -65,8 +65,8 @@ h2{font-size:19px;margin:0}
 .note-foot{display:flex;gap:5px;justify-content:flex-end;margin-top:8px;flex-wrap:wrap}
 .note-action{border:1px solid #00000018;background:#ffffff65;border-radius:7px;padding:4px 6px;font-size:10px;color:inherit}
 .pool-inner .note{width:100%}
-.pool-empty{font-size:12px;color:#927f6e;text-align:center;padding:15px 5px;line-height:1.5}
-.add-day{width:100%;margin-top:10px}
+.pool-empty{font-size:12px;color:#8a8a8a;text-align:center;padding:15px 5px;line-height:1.5}
+.add-day{width:100%;margin-top:10px;grid-column:2}
 .footer-note{font-size:11px;color:var(--muted);margin-top:18px;line-height:1.6}
 .modal-backdrop{position:fixed;inset:0;background:#34291f77;display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}
 .modal{width:min(100%,480px);max-height:90dvh;overflow:auto;background:var(--paper);border-radius:20px;padding:20px;box-shadow:0 15px 50px #24190f35}
@@ -208,13 +208,13 @@ h2{font-size:19px;margin:0}
     $('tripList').innerHTML = data.trips.map(t => {
       const days = dayCount(t.start,t.end);
       const noteCount = t.notes.length;
-      return `<button class="trip-card" data-open-trip="${esc(t.id)}">
+      return `<div class="trip-card" role="button" tabindex="0" data-open-trip="${esc(t.id)}">
         <div class="trip-card-top"><div>
           <div class="trip-title">${esc(t.name)}</div>
           <div class="trip-dates">${esc(fmtRange(t.start,t.end))}</div>
         </div><span aria-hidden="true">›</span></div>
-        <div class="trip-meta">${days}日間 · 付箋 ${noteCount}枚</div>
-      </button>`;
+        <div class="trip-card-foot"><div class="trip-meta">${days}日間 · 付箋 ${noteCount}枚</div><button type="button" class="btn small" data-edit-trip="${esc(t.id)}">旅行を編集</button></div>
+      </div>`;
     }).join('');
     $('tripEmpty').classList.toggle('hidden', data.trips.length !== 0);
   }
@@ -231,27 +231,26 @@ h2{font-size:19px;margin:0}
     $('board').classList.toggle('with-pool', showPool);
 
     const days = dayCount(t.start,t.end);
-    let dateHTML = '<div class="date-column"><div class="column-label">日付</div>';
-    let scheduleHTML = '<div class="schedule-column"><div class="column-label">旅程</div>';
+    let html = '<div class="column-label">日付</div><div class="column-label">旅程</div>';
     for(let day=1; day<=days; day++){
       const iso = dateForDay(t,day);
-      dateHTML += `<div class="day-row"><div class="day-date">${esc(fmtDate(iso))}</div><div class="day-weekday">${esc(weekday(iso))}</div><span class="day-tag">DAY${day}</span></div>`;
+      const first = day===1 ? ' first' : '';
+      html += `<div class="day-row${first}"><div class="day-date">${esc(fmtDate(iso))}</div><div class="day-weekday">${esc(weekday(iso))}</div><span class="day-tag">DAY${day}</span></div>`;
       const notes = t.notes.filter(n => n.day === day).sort((a,b)=>(a.order||0)-(b.order||0));
-      scheduleHTML += `<div class="schedule-day" data-drop-day="${day}">`;
-      if(!notes.length) scheduleHTML += `<div class="drop-hint">付箋を追加</div>`;
-      scheduleHTML += notes.map(n => renderNote(n,t,false)).join('');
-      scheduleHTML += `</div>`;
+      html += `<div class="schedule-day${first}" data-drop-day="${day}">`;
+      if(!notes.length) html += `<div class="drop-hint">付箋を追加</div>`;
+      html += notes.map(n => renderNote(n,t,false)).join('');
+      html += `</div>`;
     }
-    scheduleHTML += `<button class="btn small add-day" id="addDayBtn">＋ 付箋を追加</button></div>`;
-    dateHTML += '</div>';
+    html += `<button class="btn small add-day" id="addDayBtn">＋ 付箋を追加</button>`;
     let poolHTML = '';
     if(showPool){
       const unplaced = t.notes.filter(n => n.day === null).sort((a,b)=>(a.order||0)-(b.order||0));
-      poolHTML = `<aside class="pool-column"><div class="column-label">未配置カード</div><div class="pool-inner" data-drop-day="pool"><div class="pool-card-list">`;
+      poolHTML = `<aside class="pool-column" style="grid-column:3;grid-row:1 / span ${days+2}"><div class="column-label">未配置カード</div><div class="pool-inner" data-drop-day="pool"><div class="pool-card-list">`;
       poolHTML += unplaced.length ? unplaced.map(n => renderNote(n,t,true)).join('') : '<div class="pool-empty">まだカードがありません。<br>付箋を作ってここに置けます。</div>';
       poolHTML += '</div></div></aside>';
     }
-    $('board').innerHTML = dateHTML + scheduleHTML + poolHTML;
+    $('board').innerHTML = html + poolHTML;
     $('addDayBtn').addEventListener('click', () => openNoteModal(null, 1));
     bindNoteButtons();
   }
@@ -320,13 +319,23 @@ h2{font-size:19px;margin:0}
     });
     if(isEdit) $('deleteTripFromModal').onclick=()=>confirmDeleteTrip(t.id);
   }
+  function confirmDialog(message,okLabel,onOk,onCancel){
+    $('modalRoot').innerHTML=`<div class="modal-backdrop" id="modalBackdrop"><div class="modal" role="alertdialog" aria-modal="true">
+      <h2>本当に削除しますか？</h2>
+      <p class="confirm-msg">${message}</p>
+      <div class="modal-actions"><span></span><div class="modal-actions-right"><button type="button" class="btn" id="confirmCancel">キャンセル</button><button type="button" class="btn danger-solid" id="confirmOk">${okLabel}</button></div></div>
+    </div></div>`;
+    $('confirmCancel').onclick=onCancel||closeModal;
+    $('confirmOk').onclick=onOk;
+    $('modalBackdrop').addEventListener('click',e=>{if(e.target.id==='modalBackdrop')(onCancel||closeModal)();});
+  }
   function confirmDeleteTrip(id){
     const t=data.trips.find(x=>x.id===id); if(!t)return;
-    if(confirm(`「${t.name}」とその付箋を削除します。この操作は元に戻せません。削除しますか？`)){
+    confirmDialog(`「${esc(t.name)}」とその付箋をすべて削除します。<br>この操作は元に戻せません。`,'削除する',()=>{
       data.trips=data.trips.filter(x=>x.id!==id);
       if(currentTripId===id)currentTripId=null;
       saveData();closeModal();renderTrips();toast('旅行を削除しました');
-    }
+    },()=>openTripModal(id));
   }
   function openNoteModal(noteId=null, initialDay=1){
     const t=currentTrip(); if(!t)return;
@@ -366,9 +375,9 @@ h2{font-size:19px;margin:0}
       saveData();closeModal();renderBoard();toast(n?'付箋を更新しました':'付箋を追加しました');
     });
     if(n)$('deleteNoteBtn').onclick=()=>{
-      if(confirm(`「${n.title}」を削除しますか？`)){
+      confirmDialog(`「${esc(n.title)}」を削除します。<br>この操作は元に戻せません。`,'削除する',()=>{
         t.notes=t.notes.filter(x=>x.id!==n.id);saveData();closeModal();renderBoard();toast('付箋を削除しました');
-      }
+      },()=>openNoteModal(n.id));
     };
   }
   function nextOrder(t,day){
@@ -405,8 +414,14 @@ h2{font-size:19px;margin:0}
   $('togglePoolBtn').onclick=()=>{showPool=!showPool;renderBoard();};
   $('addNoteBtn').onclick=()=>openNoteModal(null,1);
   $('tripList').addEventListener('click',e=>{
+    const editBtn=e.target.closest('[data-edit-trip]');
+    if(editBtn){openTripModal(editBtn.dataset.editTrip);return;}
     const card=e.target.closest('[data-open-trip]');if(!card)return;
     currentTripId=card.dataset.openTrip;showPool=false;renderBoard();
+  });
+  $('tripList').addEventListener('keydown',e=>{
+    if(e.key!=='Enter'||e.target!==e.target.closest('[data-open-trip]'))return;
+    currentTripId=e.target.dataset.openTrip;showPool=false;renderBoard();
   });
   // Escape closes modal.
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
